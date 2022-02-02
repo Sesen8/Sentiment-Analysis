@@ -13,6 +13,8 @@
 #include "Database.h"
 
 using namespace std;
+using std::getline;
+using std::ifstream;
 
 // Forward declarations
 bool BuildDatabase(const string& fileName, int capacity, Record records[], int& size);
@@ -103,7 +105,35 @@ int main() {
 //          - the file could not be opened
 //          - the database capacity isn't  large enough to fit all words in the review file
 bool BuildDatabase(const string& fileName, int capacity, Record records[], int& size) {
-    assert(false);
+    ifstream fileOpen(fileName);
+    fileOpen.open("../" + fileName);
+    if (!fileOpen.is_open()){
+        cerr << "ERROR: could not open " << fileName << endl;
+        return false;
+    }
+    InitDatabase(capacity, records, size);
+
+    string numberScore;
+    string reviewDes;
+
+    getline(fileOpen,reviewDes);
+    do {
+
+        if(isdigit(reviewDes.at(0))){
+            numberScore = reviewDes.at(0);
+        }
+
+        for (int i = 0; i < reviewDes.size(); ++i){
+
+
+
+
+        }
+
+        getline(fileOpen,reviewDes);
+    }while (!fileOpen.eof() && !reviewDes.empty());
+
+    return true;
 }
 
 // Splits the review text into words and averages the scores of all the words that are found
