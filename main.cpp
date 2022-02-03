@@ -11,10 +11,14 @@
 #include <chrono>
 #include <cassert>
 #include "Database.h"
+#include <string>
 
 using namespace std;
 using std::getline;
 using std::ifstream;
+using std::string;
+
+
 
 // Forward declarations
 bool BuildDatabase(const string& fileName, int capacity, Record records[], int& size);
@@ -115,20 +119,38 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
 
     string numberScore;
     string reviewDes;
+    string splitWords;
+    int scoreAsInt;
 
     getline(fileOpen,reviewDes);
     do {
 
-        if(isdigit(reviewDes.at(0))){
+        if (isdigit(reviewDes.at(0))) {
             numberScore = reviewDes.at(0);
+
+            scoreAsInt = stoi(numberScore);
+            cout << scoreAsInt << " ";
         }
 
-        for (int i = 0; i < reviewDes.size(); ++i){
+        int start = 1;
+        int space;
+        space = reviewDes.find(' ', start);
 
+        do {
+            string foundWord;
+            foundWord = reviewDes.substr(start, space - start);
 
+            start = space+1;
+            space = reviewDes.find(' ', start);
+            cout << foundWord << endl;
+            AddWordToDatabase(capacity, records, size, foundWord, scoreAsInt);
 
+        } while(space != string::npos);
+        string lastWord;
+        lastWord = reviewDes.substr(start, space - start);
+        cout << lastWord << endl;
+        AddWordToDatabase(capacity, records, size, lastWord, scoreAsInt);
 
-        }
 
         getline(fileOpen,reviewDes);
     }while (!fileOpen.eof() && !reviewDes.empty());
