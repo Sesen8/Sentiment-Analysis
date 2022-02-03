@@ -129,7 +129,7 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
             numberScore = reviewDes.at(0);
 
             scoreAsInt = stoi(numberScore);
-            cout << scoreAsInt << " ";
+            //cout << scoreAsInt << " ";
         }
 
         int start = 1;
@@ -142,14 +142,14 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
 
             start = space+1;
             space = reviewDes.find(' ', start);
-            cout << foundWord << endl;
+            //cout << foundWord << endl;
             AddWordToDatabase(capacity, records, size, foundWord, scoreAsInt);
 
         } while(space != string::npos);
         string lastWord;
         lastWord = reviewDes.substr(start, space - start);
-        cout << lastWord << endl;
-        AddWordToDatabase(capacity, records, size, lastWord, scoreAsInt);
+        //cout << lastWord << endl;
+        AddWordToDatabase(capacity, records, size, lastWord, scoreAsInt );
 
 
         getline(fileOpen,reviewDes);

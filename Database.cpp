@@ -5,7 +5,12 @@
 // Class: CSC 2430 Winter 2022
 // Author: **<your name goes here>
 
-#include "database.h"
+#include "Database.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+using std::cout;
 
 // This is the value used to score a word not found in the database
 const double NEUTRAL = 2.0;
@@ -45,7 +50,9 @@ void InitDatabase(int capacity, Record records[], int& size){
 //      **<describe possible errors>
 //
 bool AddWordToDatabase(int capacity, Record records[], int& size, const string& word, int score){
-    return false;
+    cout << word << endl;
+    cout << score << endl;
+    return true;
 }
 
 // **Don't forget to add header comments before each function using the following format:
