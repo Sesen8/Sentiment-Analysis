@@ -6,6 +6,7 @@
 // Author: **<your name goes here>
 
 #include "Database.h"
+#include "Record.h"
 #include <iostream>
 #include <fstream>
 
@@ -22,7 +23,7 @@ const double NEUTRAL = 2.0;
 // **call AddWordToDatabase with a new word, and the current value of "size" was equal to "capacity" the
 // **the function would not do the insertion and return false instead of true.
 
-// This function
+// This function sets the number of words stored in the database to zero to make space for the next file.
 // Parameters:
 //      capacity -- the maximum number of slots in the array
 //      records -- array of Record objects. Each Record stores information about one word
@@ -32,8 +33,8 @@ const double NEUTRAL = 2.0;
 //      nothing
 // Possible Errors:
 //      **<describe possible errors>
-//
 void InitDatabase(int capacity, Record records[], int& size){
+    size = 0;
 
 }
 
@@ -45,29 +46,68 @@ void InitDatabase(int capacity, Record records[], int& size){
 //      size -- the current number of slots in the array which are filled
 //      ...
 // Returns:
-//      **<describe meaning of return value or put "nothing" if this is a function declared void>
+//      true -- if
 // Possible Errors:
 //      **<describe possible errors>
 //
 bool AddWordToDatabase(int capacity, Record records[], int& size, const string& word, int score){
-    cout << word << endl;
-    cout << score << endl;
+    cout << "AddWordToDatabase " << "\"" << word << "\"" << " Score: " << score << endl;
+
+
+    for (int i =0; i<size; ++i) {
+         Record newRecordWord = records[i];
+
+         if (newRecordWord.GetWord() == word){
+             newRecordWord.SetCount(newRecordWord.GetCount() +1);
+             newRecordWord.SetScoreTotal(newRecordWord.GetScoreTotal()+score);
+             records[i] = newRecordWord;
+             return true;
+         }
+     }
+
+    Record* newRec = new Record();
+    newRec ->SetWord(word);
+    newRec ->SetCount(1);
+    newRec ->SetScoreTotal(score);
+    records[size] = *newRec;
+    size += 1;
+
     return true;
 }
 
 // **Don't forget to add header comments before each function using the following format:
 // **<Describe what this function does
 // Parameters:
-//      **<parameter name> -- <description of parameter>
-//      **<parameter name> -- <description of parameter>
-//      **<parameter name> -- <description of parameter>
+//      records -- array of Record objects. Each Record stores information about one word
+//      size -- the current number of slots in the array which are filled
+//      word --
+//      occurrences --
+//      averageScore --
 //      ...
 // Returns:
-//      **<describe meaning of return value or put "nothing" if this is a function declared void>
+//      nothing
 // Possible Errors:
 //      **<describe possible errors>
 //
 void FindWordInDatabase(const Record records[], int size, const string& word, int& occurrences, double& averageScore){
+
+    for (int i =0; i<size; ++i) {
+        Record newRecordWord = records[i];
+
+        if (newRecordWord.GetWord() == word){
+            occurrences = newRecordWord.GetCount();
+            averageScore = newRecordWord.GetScoreTotal();
+            break;
+
+        }
+        else {
+            occurrences = 0;
+            averageScore = NEUTRAL;
+        }
+
+
+    }
+
 
 }
 
@@ -85,6 +125,34 @@ void FindWordInDatabase(const Record records[], int size, const string& word, in
 //
 void GetInfoAboutDatabase(const Record records[], int size,
                           int& numberWords, int& maxOccurrences, int& minOccurrences, double& maxScore, double& minScore){
+    numberWords = size;
+    maxOccurrences = 0;
+    minOccurrences = INT32_MAX;
+    maxScore = 0;
+    minScore = INT32_MAX;
 
+
+    for (int i =0; i<size; ++i) {
+        Record newRecordWord = records[i];
+        int scores = newRecordWord.GetScoreTotal();
+        double occurrences = newRecordWord.GetCount();
+        double average = scores/occurrences;
+
+        if (average > maxScore){
+            maxScore = average;
+        }
+        if(average < minScore){
+            minScore = average;
+        }
+
+        if (occurrences > maxOccurrences){
+            maxOccurrences = occurrences;
+        }
+        if (occurrences < minOccurrences){
+            minOccurrences = occurrences;
+        }
+
+
+    }
 }
 

@@ -109,7 +109,7 @@ int main() {
 //          - the file could not be opened
 //          - the database capacity isn't  large enough to fit all words in the review file
 bool BuildDatabase(const string& fileName, int capacity, Record records[], int& size) {
-    ifstream fileOpen(fileName);
+    ifstream fileOpen;
     fileOpen.open("../" + fileName);
     if (!fileOpen.is_open()){
         cerr << "ERROR: could not open " << fileName << endl;
@@ -124,20 +124,19 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
 
     getline(fileOpen,reviewDes);
     do {
-
         if (isdigit(reviewDes.at(0))) {
             numberScore = reviewDes.at(0);
 
             scoreAsInt = stoi(numberScore);
             //cout << scoreAsInt << " ";
         }
-
-        int start = 1;
+        int start = 2;
         int space;
         space = reviewDes.find(' ', start);
 
         do {
             string foundWord;
+            //string reviewNoNum = reviewDes.substr(2,reviewDes.length() - 2);
             foundWord = reviewDes.substr(start, space - start);
 
             start = space+1;
@@ -150,7 +149,6 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
         lastWord = reviewDes.substr(start, space - start);
         //cout << lastWord << endl;
         AddWordToDatabase(capacity, records, size, lastWord, scoreAsInt );
-
 
         getline(fileOpen,reviewDes);
     }while (!fileOpen.eof() && !reviewDes.empty());
