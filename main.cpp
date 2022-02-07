@@ -110,7 +110,15 @@ int main() {
 //          - the database capacity isn't  large enough to fit all words in the review file
 bool BuildDatabase(const string& fileName, int capacity, Record records[], int& size) {
     ifstream fileOpen;
-    fileOpen.open("../" + fileName);
+    string format = "../";
+    if (fileName.find(format) != string::npos){
+        fileOpen.open(fileName);
+    }
+    if (fileName.find(format) == string::npos){
+        fileOpen.open("../" + fileName);
+    }
+
+
     if (!fileOpen.is_open()){
         cerr << "ERROR: could not open " << fileName << endl;
         return false;
@@ -118,40 +126,31 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
     InitDatabase(capacity, records, size);
 
     string numberScore;
-    string reviewDes;
-    string splitWords;
+    string line;
     int scoreAsInt;
+    string foundWord;
+    string reviewsLine;
 
-    getline(fileOpen,reviewDes);
+    getline(fileOpen,line);
     do {
-        if (isdigit(reviewDes.at(0))) {
-            numberScore = reviewDes.at(0);
-
+        if (isdigit(line.at(0))) {
+            numberScore = line.at(0);
             scoreAsInt = stoi(numberScore);
-            //cout << scoreAsInt << " ";
+
         }
-        int start = 2;
-        int space;
-        space = reviewDes.find(' ', start);
 
-        do {
-            string foundWord;
-            //string reviewNoNum = reviewDes.substr(2,reviewDes.length() - 2);
-            foundWord = reviewDes.substr(start, space - start);
+        reviewsLine = line.substr(2,line.size()-2);
+        istringstream stream(reviewsLine);
 
-            start = space+1;
-            space = reviewDes.find(' ', start);
-            //cout << foundWord << endl;
+        while (stream >> foundWord){
             AddWordToDatabase(capacity, records, size, foundWord, scoreAsInt);
+        }
 
-        } while(space != string::npos);
-        string lastWord;
-        lastWord = reviewDes.substr(start, space - start);
-        //cout << lastWord << endl;
-        AddWordToDatabase(capacity, records, size, lastWord, scoreAsInt );
 
-        getline(fileOpen,reviewDes);
-    }while (!fileOpen.eof() && !reviewDes.empty());
+        getline(fileOpen,line);
+    }while (!fileOpen.eof() && !line.empty());
+
+    fileOpen.close();
 
     return true;
 }

@@ -70,6 +70,8 @@ bool AddWordToDatabase(int capacity, Record records[], int& size, const string& 
     newRec ->SetCount(1);
     newRec ->SetScoreTotal(score);
     records[size] = *newRec;
+
+
     size += 1;
 
     return true;
@@ -125,11 +127,12 @@ void FindWordInDatabase(const Record records[], int size, const string& word, in
 //
 void GetInfoAboutDatabase(const Record records[], int size,
                           int& numberWords, int& maxOccurrences, int& minOccurrences, double& maxScore, double& minScore){
+
+    maxScore = 0;
+    minScore = INT32_MAX;
     numberWords = size;
     maxOccurrences = 0;
     minOccurrences = INT32_MAX;
-    maxScore = 0;
-    minScore = INT32_MAX;
 
 
     for (int i =0; i<size; ++i) {
