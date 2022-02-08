@@ -164,30 +164,30 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
 double AnalyzeReview(const Record records[], int size, const string& review) {
 
 
-    double wordAverage = 0.0;
-    double finalAverage = 0.0;
-    double totalAverage = 0.0;
+    double averageForWord = 0.0;
+    double averageFinal = 0.0;
+    double averageTotal = 0.0;
     int count = 0;
 
 
-    istringstream stream2(review);
+    istringstream streamTwo(review);
     string inWord;
 
-    while(stream2 >> inWord){
+    while(streamTwo >> inWord){
         int occurrence = 0;
         double total = 0.0;
         FindWordInDatabase(records,size,inWord,occurrence,total);
         if (occurrence == 0){
-            wordAverage = 2.0;
+            averageForWord = 2.0;
         }
         else {
-            wordAverage = total/occurrence;
+            averageForWord = total/occurrence;
         }
-        totalAverage+= wordAverage;
+        averageTotal+= averageForWord;
         count+=1;
     }
-    finalAverage = totalAverage/static_cast<double>(count);
+    averageFinal = averageTotal/static_cast<double>(count);
 
-    return finalAverage;
+    return averageFinal;
 
 }
