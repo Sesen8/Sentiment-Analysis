@@ -16,12 +16,6 @@ using std::cout;
 // This is the value used to score a word not found in the database
 const double NEUTRAL = 2.0;
 
-// **Add your implementations for InitDatabase, AddWordToDatabase, FindWordInDatabase, and GetInfoAboutDatabase
-// **The parameter "records" is an array of Record objects.  Each Record stores information about one word.
-// **The parameter "size" records the current number of slots in the array which are filled.
-// **The parameter "capacity" specifies the maximum number of slots in the array.  If you were to
-// **call AddWordToDatabase with a new word, and the current value of "size" was equal to "capacity" the
-// **the function would not do the insertion and return false instead of true.
 
 // This function sets the number of words stored in the database to zero to make space for the next file.
 // Parameters:
@@ -32,27 +26,24 @@ const double NEUTRAL = 2.0;
 // Returns:
 //      nothing
 // Possible Errors:
-//      **<describe possible errors>
+//      nothing
 void InitDatabase(int capacity, Record records[], int& size){
     size = 0;
 
 }
 
-// **Don't forget to add header comments before each function using the following format:
-// **<Describe what this function does
+// This function iterates through the records array an adds the words found in BuildDataBase to the database.
 // Parameters:
 //      capacity -- the maximum number of slots in the array
 //      records -- array of Record objects. Each Record stores information about one word
 //      size -- the current number of slots in the array which are filled
 //      ...
 // Returns:
-//      true -- if
+//      true -- if word is found in database
 // Possible Errors:
-//      **<describe possible errors>
+//      might add duplicates
 //
 bool AddWordToDatabase(int capacity, Record records[], int& size, const string& word, int score){
-    
-
 
     for (int i =0; i<size; ++i) {
          Record newRecordWord = records[i];
@@ -89,11 +80,9 @@ bool AddWordToDatabase(int capacity, Record records[], int& size, const string& 
 // Returns:
 //      nothing
 // Possible Errors:
-//      **<describe possible errors>
+//      might not work with empty file
 //
 void FindWordInDatabase(const Record records[], int size, const string& word, int& occurrences, double& averageScore){
-
-
     for (int i =0; i<size; ++i) {
         Record newRecordWord = records[i];
 
@@ -107,23 +96,22 @@ void FindWordInDatabase(const Record records[], int size, const string& word, in
             occurrences = 0;
             averageScore = NEUTRAL;
         }
-
-
     }
-
-
 }
 
 // This function calculates the maximum, and minimum of the scores and the scores occurrences.
 // Parameters:
 //      records -- array of Record objects. Each Record stores information about one word
 //      size -- the current number of slots in the array which are filled
-//      numberWord -- the amount of words in
-//      ...
+//      numberWord -- the amount of words in file
+//      maxOccurrences -- maximum times a score shows up
+//      minOccurrences -- minimum times a score shows up
+//      maxScore -- maximum score found
+//      minScore -- minimum score found
 // Returns:
-//      **<describe meaning of return value or put "nothing" if this is a function declared void>
+//      nothing
 // Possible Errors:
-//      **<describe possible errors>
+//      might not find the right max and min if file is short.
 //
 void GetInfoAboutDatabase(const Record records[], int size,
                           int& numberWords, int& maxOccurrences, int& minOccurrences, double& maxScore, double& minScore){
@@ -134,19 +122,11 @@ void GetInfoAboutDatabase(const Record records[], int size,
     maxOccurrences = 0;
     minOccurrences = INT32_MAX;
 
-
     for (int i =0; i<size; ++i) {
         Record newRecordWord = records[i];
         int scores = newRecordWord.GetScoreTotal();
         double occurrences = newRecordWord.GetCount();
         double average = scores/occurrences;
-
-        if (average > maxScore){
-            maxScore = average;
-        }
-        if(average < minScore){
-            minScore = average;
-        }
 
         if (occurrences > maxOccurrences){
             maxOccurrences = occurrences;
@@ -155,7 +135,12 @@ void GetInfoAboutDatabase(const Record records[], int size,
             minOccurrences = occurrences;
         }
 
-
+        if (average > maxScore){
+            maxScore = average;
+        }
+        if(average < minScore){
+            minScore = average;
+        }
     }
 }
 

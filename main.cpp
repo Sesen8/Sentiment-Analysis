@@ -110,14 +110,13 @@ int main() {
 //          - the database capacity isn't  large enough to fit all words in the review file
 bool BuildDatabase(const string& fileName, int capacity, Record records[], int& size) {
     ifstream fileOpen;
-    string format = "../";
-    if (fileName.find(format) != string::npos){
+    string opener = "../";
+    if (fileName.find(opener) != string::npos){
         fileOpen.open(fileName);
     }
-    if (fileName.find(format) == string::npos){
+    if (fileName.find(opener) == string::npos){
         fileOpen.open("../" + fileName);
     }
-
 
     if (!fileOpen.is_open()){
         cerr << "ERROR: could not open " << fileName << endl;
@@ -177,24 +176,16 @@ double AnalyzeReview(const Record records[], int size, const string& review) {
     while(stream2 >> inWord){
         int occurrence = 0;
         double total = 0.0;
-
         FindWordInDatabase(records,size,inWord,occurrence,total);
-
         if (occurrence == 0){
             wordAverage = 2.0;
         }
-
         else {
             wordAverage = total/occurrence;
         }
-
-
         totalAverage+= wordAverage;
-
         count+=1;
     }
-
-
     finalAverage = totalAverage/static_cast<double>(count);
 
     return finalAverage;
