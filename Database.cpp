@@ -51,7 +51,7 @@ void InitDatabase(int capacity, Record records[], int& size){
 //      **<describe possible errors>
 //
 bool AddWordToDatabase(int capacity, Record records[], int& size, const string& word, int score){
-    cout << "AddWordToDatabase " << "\"" << word << "\"" << " Score: " << score << endl;
+    
 
 
     for (int i =0; i<size; ++i) {
@@ -82,9 +82,9 @@ bool AddWordToDatabase(int capacity, Record records[], int& size, const string& 
 // Parameters:
 //      records -- array of Record objects. Each Record stores information about one word
 //      size -- the current number of slots in the array which are filled
-//      word --
-//      occurrences --
-//      averageScore --
+//      word -- the word found in the string
+//      occurrences -- number of times the word shows up
+//      averageScore -- average of the scores sent in
 //      ...
 // Returns:
 //      nothing
@@ -92,6 +92,7 @@ bool AddWordToDatabase(int capacity, Record records[], int& size, const string& 
 //      **<describe possible errors>
 //
 void FindWordInDatabase(const Record records[], int size, const string& word, int& occurrences, double& averageScore){
+
 
     for (int i =0; i<size; ++i) {
         Record newRecordWord = records[i];
@@ -102,7 +103,7 @@ void FindWordInDatabase(const Record records[], int size, const string& word, in
             break;
 
         }
-        else {
+        else if (newRecordWord.GetWord() != word){
             occurrences = 0;
             averageScore = NEUTRAL;
         }
@@ -113,12 +114,11 @@ void FindWordInDatabase(const Record records[], int size, const string& word, in
 
 }
 
-// **Don't forget to add header comments before each function using the following format:
-// **<Describe what this function does
+// This function calculates the maximum, and minimum of the scores and the scores occurrences.
 // Parameters:
-//      **<parameter name> -- <description of parameter>
-//      **<parameter name> -- <description of parameter>
-//      **<parameter name> -- <description of parameter>
+//      records -- array of Record objects. Each Record stores information about one word
+//      size -- the current number of slots in the array which are filled
+//      numberWord -- the amount of words in
 //      ...
 // Returns:
 //      **<describe meaning of return value or put "nothing" if this is a function declared void>

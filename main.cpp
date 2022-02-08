@@ -163,5 +163,40 @@ bool BuildDatabase(const string& fileName, int capacity, Record records[], int& 
 // Returns:
 //      true indicates database successfully built, false indicates a problem
 double AnalyzeReview(const Record records[], int size, const string& review) {
-    assert(false);
+
+
+    double wordAverage = 0.0;
+    double finalAverage = 0.0;
+    double totalAverage = 0.0;
+    int count = 0;
+
+
+    istringstream stream2(review);
+    string inWord;
+
+    while(stream2 >> inWord){
+        int occurrence = 0;
+        double total = 0.0;
+
+        FindWordInDatabase(records,size,inWord,occurrence,total);
+
+        if (occurrence == 0){
+            wordAverage = 2.0;
+        }
+
+        else {
+            wordAverage = total/occurrence;
+        }
+
+
+        totalAverage+= wordAverage;
+
+        count+=1;
+    }
+
+
+    finalAverage = totalAverage/static_cast<double>(count);
+
+    return finalAverage;
+
 }
